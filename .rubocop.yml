@@ -1,0 +1,27 @@
+Style/Documentation:
+  Enabled: false
+
+Style/Metrics/ClassLength:
+  Exclude:
+  - blackjack.rb
+Style/Metrics/AbcSize:
+  Exclude:
+  - blackjack.rb
+Style/Metrics/MethodLength:
+  Exclude:
+  - blackjack.rb
+Style/Metrics/BlockLength:
+  Exclude:
+  - blackjack.rb
+Style/Lint/UselessAssignment:
+  Exclude:
+  - deck.rb
+Style/Layout/IndentationWidth:
+  Exclude:
+  - deck.rb
+Style/Layout/ElseAlignment:
+  Exclude:
+  - deck.rb
+Style/Layout/EndAlignment:
+  Exclude:
+  - deck.rb

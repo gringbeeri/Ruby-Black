@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
-# rubocop:disable Metrics/ClassLength
-# Service to download ftp files from the server
 class Blackjack
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def self.call
-    # rubocop:disable Metrics/BlockLength
+    deck = Deck.new
+    @bank = Money.new
     loop do
       print 'Введите ваше имя: '
       puts "#{gets.chomp} - добро пожаловать в игру 'Black Jack'!"
@@ -15,20 +12,24 @@ class Blackjack
       print 'Ваш ответ: '
       case gets.to_i
       when 1
-        player = Player.new
-        dealer = Dealer.new
+        @player = Player.new
+        @dealer = Dealer.new
         puts '*------------------------------*'
         puts 'ИГРА НАЧАЛАСЬ!'
         puts '*------------------------------*'
+        @player.pay_player
+        @dealer.pay_dealer
+        @bank.add_bank
         puts 'Сделана ставки по 10$'
-        pay_money
         puts '*------------------------------*'
         puts 'Раздаются карты для игрока...'
-        player.two_random_cards
-        player.info_cards
+        @player.give_two_cards(deck)
+        @player.summa_cards
+        @player.info_cards
         puts '*------------------------------*'
         puts 'Раздаются карты для дилера...'
-        dealer.two_random_cards
+        @dealer.give_two_cards(deck)
+        @dealer.summa_cards
         puts '********************************'
         puts '*------------------------------*'
         puts 'Какой ход вы выбираете? '
@@ -44,13 +45,14 @@ class Blackjack
           puts 'Дилер выбирает свой ход...'
           puts '*------------------------------*'
           delay
-          dealer.walk_dealer
+          @dealer.walk_dealer(deck)
+          @dealer.summa_cards
           puts '*------------------------------*'
           puts 'Карты вскрываются...'
           puts '*------------------------------*'
-          player.info_cards
+          @player.info_cards
           puts '*------------------------------*'
-          dealer.info_cards
+          @dealer.info_cards
           puts '*------------------------------*'
           winning
           play
@@ -58,13 +60,16 @@ class Blackjack
           puts '*------------------------------*'
           puts 'Игроку добавляется одна карта!'
           puts '*------------------------------*'
-          player.random_cards
-          player.info_cards
+          @player.give_card(deck)
+          @player.summa_cards
+          @player.info_cards
           puts '*------------------------------*'
           puts 'Дилер выбирает свой ход...'
           puts '*------------------------------*'
           delay
-          dealer.walk_dealer
+          @dealer.walk_dealer(deck)
+          @dealer.summa_cards
+          @dealer.info_cards
           puts '*------------------------------*'
           puts 'Карты вскрываются...'
           puts '*------------------------------*'
@@ -76,42 +81,35 @@ class Blackjack
           puts '*------------------------------*'
           delay
           puts '*------------------------------*'
-          player.info_cards
+          @player.info_cards
           puts '*------------------------------*'
-          dealer.info_cards
+          @dealer.info_cards
           puts '*------------------------------*'
           winning
           play
         end
       end
     end
-    # rubocop:enable Metrics/BlockLength
-  end
-
-  def self.pay_money
-    Player.player_money -= 10
-    Dealer.dealer_money -= 10
-    Money.money_bank = 20
   end
 
   def self.win_player
-    Player.player_money += Money.money_bank
+    @player.player_money += @bank.bank_money
   end
 
   def self.win_dealer
-    Dealer.dealer_money += Money.money_bank
+    @dealer.dealer_money += @bank.bank_money
   end
 
-  def self.dead_heat
-    Player.player_money += 10
-    Dealer.dealer_money += 10
+  def self.draw
+    @player.player_money += 10
+    @dealer.dealer_money += 10
   end
 
   def self.winning
-    if Player.summa > 21
+    if @player.summa > 21
       puts 'Игрок проиграл из-за перебора карт!'
       win_dealer
-    elsif Dealer.summa > 21
+    elsif @dealer.summa > 21
       puts 'Дилер проиграл из-за перебора карт!'
       win_player
     else
@@ -120,15 +118,15 @@ class Blackjack
   end
 
   def self.checking
-    if Player.summa > Dealer.summa
+    if @player.summa > @dealer.summa
       puts 'Игрок победил!'
       win_player
-    elsif Dealer.summa > Player.summa
+    elsif @dealer.summa > @player.summa
       puts 'Дилер победил!'
       win_dealer
     else
       puts 'Ничья!'
-      dealer_money
+      draw
     end
   end
 
@@ -144,8 +142,6 @@ class Blackjack
     print 'Ваш ответ: '
     case gets.to_i
     when 1
-      Player.summa = 0
-      Dealer.summa = 0
       call
     when 2
       puts '*------------------------------*'
@@ -154,7 +150,4 @@ class Blackjack
       exit
     end
   end
-  # rubocop:enable Metrics/MethodLength
-  # rubocop:enable Metrics/AbcSize
 end
-# rubocop:enable Metrics/ClassLength

@@ -1,23 +1,18 @@
 # frozen_string_literal: true
 
-# Service to download ftp files from the server
-class Dealer
-  include Cards
-
-  deck_cards
-  summa_cards
-
-  @dealer_money = 100
-
-  class << self
-    attr_accessor :dealer_money
-  end
+class Dealer < Gamer
+  attr_accessor :dealer_money
 
   def initialize
-    cards_player
+    super
+    @dealer_money = 100
   end
 
-  def walk_dealer
-    self.class.summa < 17 ? random_cards && puts('Дилер берет еще одну карту!') : (puts 'Дилер пропускает ход!')
+  def pay_dealer
+    @dealer_money -= 10
+  end
+
+  def walk_dealer(deck)
+    @summa < 17 ? give_card(deck) && puts('Дилер берет еще одну карту!') : (puts 'Дилер пропускает ход!')
   end
 end

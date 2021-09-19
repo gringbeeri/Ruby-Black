@@ -1,10 +1,13 @@
 # frozen_string_literal: true
 
-# Service to download ftp files from the server
 class Money
-  @money_bank = 0
+  attr_accessor :bank_money
 
-  class << self
-    attr_accessor :money_bank
+  def initialize
+    @bank_money = 0
+  end
+
+  def add_bank
+    @bank_money = 20
   end
 end
