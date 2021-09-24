@@ -3,8 +3,8 @@
 class Deck
   attr_reader :cards
 
-  SUITS ||= %w[Kresti Cherv Pic Buben].freeze
-  NOMINALS ||= %w[2 3 4 5 6 7 8 9 10 V D K A].freeze
+  SUITS = %w[Kresti Cherv Pic Buben].freeze
+  NOMINALS = %w[2 3 4 5 6 7 8 9 10 V D K A].freeze
 
   def initialize
     @cards = []
@@ -18,16 +18,13 @@ class Deck
   end
 
   def value_card(nominal)
-    value = if %w[V D K].include?(nominal)
-      10
-    elsif nominal == 'A'
-      11
-    else
-      nominal.to_i
-    end
+    return 10 if %w[V D K].include?(nominal)
+    return 11 if nominal == 'A'
+
+    nominal.to_i
   end
 
   def random_card
-    card = @cards.pop
+    @cards.pop
   end
 end

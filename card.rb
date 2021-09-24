@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Card
-  attr_reader :suit, :nominal, :value
+  attr_accessor :value
+  attr_reader :suit, :nominal
 
   def initialize(suit, nominal, value)
     @suit = suit

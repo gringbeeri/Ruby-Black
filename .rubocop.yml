@@ -1,6 +1,8 @@
 Style/Documentation:
   Enabled: false
 
+AllCops:
+  NewCops: enable
 Style/Metrics/ClassLength:
   Exclude:
   - blackjack.rb

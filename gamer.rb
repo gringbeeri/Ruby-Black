@@ -1,36 +1,43 @@
 # frozen_string_literal: true
 
 class Gamer
-  attr_reader :hand, :summa
+  attr_accessor :money, :sum
+  attr_reader :hand
 
   def initialize
     @hand = []
+    @money = 100
   end
 
   def give_card(deck)
-    if @hand.size > 2
-      puts 'BREAKING! Вы попытались взять больше 3 карт!'
-    else
-      @hand << deck.random_card
-    end
+    return puts 'Больше 3 карт!' if hand.size > 2
+
+    @hand << deck.random_card
   end
 
   def give_two_cards(deck)
     2.times do
-      @hand << deck.random_card
+      give_card(deck)
     end
   end
 
-  def summa_cards
-    @summa = 0
-    @hand.each do |card|
-      @summa += card.value
-    end
+  def sum_cards
+    @sum = 0
+    hand.each { |card| @sum += card.value }
   end
 
   def info_cards
     puts "'#{self.class}' - ваши карты: "
-    @hand.each { |card| puts "#{card.suit}'#{card.nominal}':*#{card.value}*" }
-    puts "'#{self.class}' - сумма ваших карт равна: #{@summa}!"
+    hand.each { |card| puts "#{card.suit}'#{card.nominal}':*#{card.value}*" }
+    puts "'#{self.class}' - сумма ваших карт равна: #{sum}!"
+  end
+
+  def ace
+    hand.each do |card|
+      if %(A).include?(card.nominal)
+        @sum -= 11
+        card.value = (sum >= 11 ? 1 : 11)
+      end
+    end
   end
 end
