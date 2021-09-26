@@ -23,21 +23,21 @@ class Gamer
 
   def sum_cards
     @sum = 0
-    hand.each { |card| @sum += card.value }
+    hand.each do |card|
+      @sum += card.value
+    end
+    hand.each do |card|
+      if %(A).include?(card.nominal)
+        @sum -= 11
+        card.value = (sum >= 11 ? 1 : 11)
+        @sum += card.value
+      end
+    end
   end
 
   def info_cards
     puts "'#{self.class}' - ваши карты: "
     hand.each { |card| puts "#{card.suit}'#{card.nominal}':*#{card.value}*" }
     puts "'#{self.class}' - сумма ваших карт равна: #{sum}!"
-  end
-
-  def ace
-    hand.each do |card|
-      if %(A).include?(card.nominal)
-        @sum -= 11
-        card.value = (sum >= 11 ? 1 : 11)
-      end
-    end
   end
 end

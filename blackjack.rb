@@ -26,14 +26,10 @@ class Blackjack
         puts 'Раздаются карты для игрока...'
         player.give_two_cards(deck)
         player.sum_cards
-        player.ace
-        player.sum_cards
         player.info_cards
         puts '*------------------------------*'
         puts 'Раздаются карты для дилера...'
         dealer.give_two_cards(deck)
-        dealer.sum_cards
-        dealer.ace
         dealer.sum_cards
         puts '********************************'
         puts '*------------------------------*'
@@ -52,8 +48,6 @@ class Blackjack
           delay
           dealer.walk_dealer(deck)
           dealer.sum_cards
-          dealer.ace
-          dealer.sum_cards
           puts '*------------------------------*'
           puts 'Карты вскрываются...'
           puts '*------------------------------*'
@@ -69,16 +63,12 @@ class Blackjack
           puts '*------------------------------*'
           player.give_card(deck)
           player.sum_cards
-          player.ace
-          player.sum_cards
           player.info_cards
           puts '*------------------------------*'
           puts 'Дилер выбирает свой ход...'
           puts '*------------------------------*'
           delay
           dealer.walk_dealer(deck)
-          dealer.sum_cards
-          dealer.ace
           dealer.sum_cards
           dealer.info_cards
           puts '*------------------------------*'
